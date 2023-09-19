@@ -61,8 +61,8 @@ double Chebyshev(double a, double b, int i, int n){
 int main(){
     double a=0.;
     double b=10.;
-    double h=0.5;
-    int n=(b-a)/h+1;
+    int n=20;
+    double h=(b-a)/n;
     double x[n];
     double f[n];
     double L[n];
