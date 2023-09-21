@@ -90,9 +90,9 @@ int main(){
     const char csv_file_name1[64] = "data_fixed.csv";
     ofstream csv_file;
     csv_file.open(csv_file_name1);
-    csv_file << "x, f(x), Lagrange, Newton\n";
+    csv_file << "x, f, l, n\n";
 
-    cout << "Fixxed step\nx f(x) Lagrange Newton\n";
+    cout << "Fixxed step\nx f L Newton\n";
     for(int i=0; i<n_new; i++){
         x_new[i]=a+h_new*i;
         f_new[i]=func(x_new[i]);
@@ -127,7 +127,7 @@ int main(){
 
     const char csv_file_name2[64] = "data_Chebyshev.csv";
     csv_file.open(csv_file_name2);
-    csv_file << "x, f(x), Lagrange, Newton\n";
+    csv_file << "x, f, l, n\n";
 
     cout << "Chebyshev step\nx f(x) Lagrange Newton\n";
     for(int i=0; i<n_new; i++){
