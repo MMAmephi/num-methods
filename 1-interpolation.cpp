@@ -133,7 +133,7 @@ int main(){
     for(int i=0; i<n_new; i++){
         L_ch_new[i]=Lagrange(x_new[i], n, x_ch, f_ch);
         N_ch_new[i]=Newton(x_new[i], n, x_ch, f_ch);
-        csv_file << x_new[i] << " " << f_new[i] << " " << L_ch_new[i] << " " << N_ch_new[i] <<"\n";
+        csv_file << x_new[i] << "," << f_new[i] << "," << L_ch_new[i] << "," << N_ch_new[i] <<"\n";
         //cout << x_new[i] << " " << f_new[i] << " " << L_ch_new[i] << " " << N_ch_new[i] <<"\n";
     }
     csv_file.close();
