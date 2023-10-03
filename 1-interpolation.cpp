@@ -92,7 +92,7 @@ int main(){
     csv_file.open(csv_file_name1);
     csv_file << "x,f,Lagrange,Newton\n";
 
-    cout << "Fixxed step\nx f L Newton\n";
+    //cout << "Fixxed step\nx f L Newton\n";
     for(int i=0; i<n_new; i++){
         x_new[i]=a+h_new*i;
         f_new[i]=func(x_new[i]);
@@ -101,7 +101,7 @@ int main(){
         L_new[i]=Lagrange(x_new[i], n, x, f);
         N_new[i]=Newton(x_new[i], n, x, f);
         csv_file << x_new[i] << "," << f_new[i] << "," << L_new[i] << "," << N_new[i] <<"\n";
-        cout << x_new[i] << " " << f_new[i] << " " << L_new[i] << " " << N_new[i] <<"\n";
+        //cout << x_new[i] << " " << f_new[i] << " " << L_new[i] << " " << N_new[i] <<"\n";
     }
     csv_file.close();
 
@@ -129,7 +129,7 @@ int main(){
     csv_file.open(csv_file_name2);
     csv_file << "x,f,Lagrange,Newton\n";
 
-    cout << "Chebyshev step\nx f(x) Lagrange Newton\n";
+    //cout << "Chebyshev step\nx f(x) Lagrange Newton\n";
     for(int i=0; i<n_new; i++){
         L_ch_new[i]=Lagrange(x_new[i], n, x_ch, f_ch);
         N_ch_new[i]=Newton(x_new[i], n, x_ch, f_ch);
