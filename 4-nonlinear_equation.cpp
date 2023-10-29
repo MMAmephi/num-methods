@@ -11,6 +11,10 @@ double dfunc(double x){
     return cos(x+1);
 }
 
+double ddfunc(double x){
+    return -sin(x+1);
+}
+
 double bisection(double a, double b, double eps){
     double ans = (a + b)/2;
     while((b - a >= eps) && (abs(func(ans)) >= eps)){
@@ -44,7 +48,23 @@ double mod_Newton(double a, double b, double eps){
     return x1;    
 }
 
-double 
+double chord(double a, double b, double eps){
+    double c, x0;
+    if(func(a)*ddfunc(a) > 0){
+        c = a;
+        x0 = b;
+    }
+    else{
+        c = b;
+        x0 = a;
+    }
+    double x1 = x0 - func(x0)*(x0 - c) / (func(x0) - func(c));
+    while((abs(x1 - x0) >= eps) && (abs(func(x1)) >= eps)){
+        x0 = x1;
+        x1 = x0 - func(x0)*(x0 - c) / (func(x0) - func(c));
+    }
+    return x1;
+}
 
 int main()
 {
@@ -54,5 +74,6 @@ int main()
     cout << bisection(a, b, eps) << "\n";
     cout << Newton(a, b, eps) << "\n";
     cout << mod_Newton(a, b, eps) << "\n";
+    cout << chord(a, b, eps) << "\n";
     return 0;
 }
