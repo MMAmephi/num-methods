@@ -1,19 +1,40 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+#include <vector>
 
 using namespace std;
  
 double func(double x){
-    return sin(x+1);
+    return exp(sin(x+2)) - 1;
 }
 
 double dfunc(double x){
-    return cos(x+1);
+    return exp(sin(x+2))*cos(x+2);
 }
 
 double ddfunc(double x){
     return -sin(x+1);
+}
+
+bool sign(double x){
+    if(x > 0) return 1;
+    else return 0;
+}
+
+void boundary(double a, double b, int n, vector<double> &boundaries){
+    double temp;
+    double prev = a;
+    bool sign_f;
+    bool sign_df;
+    for(int i = 1; i <= n; i++){
+        temp = a + i*(b - a)/n;
+        if((sign(dfunc(temp)) == sign(dfunc(prev))) && (sign(func(temp)) != sign(func(prev)))){
+            boundaries.push_back(prev);
+            boundaries.push_back(temp);
+        }
+        prev = temp;
+    }
 }
 
 double bisection(double a, double b, double eps){
@@ -88,11 +109,25 @@ double chord(double a, double b, double eps){
 int main()
 {
     double a = 0;
-    double b = 3;
+    double b = 10;
     const double eps = pow(10, -3);
-    bisection(a, b, eps);
+    int n = 100;
+    vector<double> boundaries;
+
+    boundary(a, b, n, boundaries);
+    for(int i = 0; i < boundaries.size(); i=i+2){
+        cout << i/2+1 << " solution" << "\n";
+        bisection(boundaries[i], boundaries[i+1], eps); 
+        Newton(boundaries[i], boundaries[i+1], eps);
+        mod_Newton(boundaries[i], boundaries[i+1], eps);
+        chord(boundaries[i], boundaries[i+1], eps);   
+    }
+    /*bisection(a, b, eps);
     Newton(a, b, eps);
     mod_Newton(a, b, eps);
-    chord(a, b, eps);
+    chord(a, b, eps);*/
+    /*for(int i=0; i < boundaries.size(); i++){
+        cout << boundaries[i] <<"\n";
+    };*/
     return 0;
 }
