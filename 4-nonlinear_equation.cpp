@@ -111,7 +111,7 @@ int main()
     double a = 0;
     double b = 10;
     const double eps = pow(10, -3);
-    int n = 100;
+    int n = 10;
     vector<double> boundaries;
 
     boundary(a, b, n, boundaries);
