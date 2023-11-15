@@ -49,14 +49,14 @@ void Adams3(vector<double> x, vector<double> &u, vector<double> &v, double u0, d
     u1 = u0 + h * V(v0);
     u.push_back(u1);
     v.push_back(v1);
-    v2 = v1 + h * (3/2*U(x[1], u1, v1) - 1/2*U(x[0], u0, v0));
-    u2 = u1 + h * (3/2*V(v1) - 1/2*V(v0));
+    v2 = v1 + h * (3./2.*U(x[1], u1, v1) - 1./2.*U(x[0], u0, v0));
+    u2 = u1 + h * (3./2.*V(v1) - 1./2.*V(v0));
     u.push_back(u2);
     v.push_back(v2);
 
     for(int i=2; i < x.size()-1; i++){
-        v3 = (v[i] + h * (23/12*U(x[i], u[i], v[i]) - 16/12*U(x[i-1], u[i-1], v[i-1]) + 5/12*U(x[i-2], u[i-2], v[i-2])));
-        u3 = (u[i] + h * (23/12*V(v[i]) - 16/12*V(v[i-1]) + 5/12*V(v[i-2])));
+        v3 = (v[i] + h * (23./12.*U(x[i], u[i], v[i]) - 16./12.*U(x[i-1], u[i-1], v[i-1]) + 5./12.*U(x[i-2], u[i-2], v[i-2])));
+        u3 = (u[i] + h * (23./12.*V(v[i]) - 16./12.*V(v[i-1]) + 5./12.*V(v[i-2])));
         u.push_back(u3);
         v.push_back(v3);
     }
@@ -113,8 +113,8 @@ int main()
     vector<double> u1;
     vector<double> v1;
 
-    vector<double> u2;
-    vector<double> v2;
+    vector<double> u2_adams;
+    vector<double> v2_adams;
 
     for(int i = 0; i <= (b-a)/h; i++){
         x_grid.push_back(h * i);
@@ -135,13 +135,10 @@ int main()
         cout << setprecision(10) << "error evaluation: " << abs(u2h[i] - u1[i])/15 << "\n";
     }
 
-    Adams3(x_grid, u2, v2, u0, du0, h);
+    Adams3(x_grid, u2_adams, v2_adams, u0, du0, h);
 
     for(int i = 0; i <= (b-a)/h; i++){
-        cout << setprecision(10) << "Adams: " << u2[i] << ", analytical: " << solution(x_grid[i]) << ", error: " << abs(u2[i] - solution(x_grid[i])) << "\n";
-    }
-    for(int i = 0; i <= (b-a)/h; i++){
-        cout << setprecision(10) << "Adams: " << v2[i] << ", analytical: " << dsolution(x_grid[i]) << ", error: " << abs(v2[i] - dsolution(x_grid[i])) << "\n";
+        cout << setprecision(10) << "Adams: " << u2_adams[i] << ", analytical: " << solution(x_grid[i]) << ", error: " << abs(u2_adams[i] - solution(x_grid[i])) << "\n";
     }
 
     return 0;
