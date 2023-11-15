@@ -13,6 +13,7 @@ double dsolution(double x){
     return(-sin(x) + 2/(x+1));
 }
 
+
 double U(double x, double u, double v){
     return (2*tan(x)/(1+x)*log(1+x) - cos(x) - tan(x)/(1+x)*u - v/(1+x));
 }
@@ -54,16 +55,10 @@ void Adams3(vector<double> x, vector<double> &u, vector<double> &v, double u0, d
     v.push_back(v2);
 
     for(int i=2; i < x.size()-1; i++){
-        v3 = (v2 + h * (23/12*U(x[i], u2, v2) - 16/12*U(x[i-1], u1, v1) + 5/12*U(x[i-2], u0, v0)));
-        u3 = (u2 + h * (23/12*V(v2) - 16/12*V(v1) + 5/12*V(v0)));
+        v3 = (v[i] + h * (23/12*U(x[i], u[i], v[i]) - 16/12*U(x[i-1], u[i-1], v[i-1]) + 5/12*U(x[i-2], u[i-2], v[i-2])));
+        u3 = (u[i] + h * (23/12*V(v[i]) - 16/12*V(v[i-1]) + 5/12*V(v[i-2])));
         u.push_back(u3);
         v.push_back(v3);
-        u0 = u1;
-        u1 = u2;
-        u2 = u3;
-        v0 = v1;
-        v1 = v2;
-        v2 = v3;
     }
 }
 
