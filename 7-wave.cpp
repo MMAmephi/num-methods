@@ -32,7 +32,7 @@ double U0(double t, double x){
 vector<vector<double>> Sol1(vector<double> x, vector<double> t, vector<vector<double>> f, double tau, double h, const double a, const double alpha0, const double alphal, const double beta0, const double betal){
     int Nx = x.size();
     int Nt = t.size();
-    vector<vector<double>> u(Nt+1, vector<double>(Nx+1));
+    vector<vector<double>> u(Nt, vector<double>(Nx));
 
     for(int i = 0; i < Nx; i++){
         u[0][i] = Phi(x[i]);
@@ -57,11 +57,14 @@ vector<vector<double>> Sol2(vector<double> x, vector<double> t, vector<vector<do
 
     for(int i = 1; i < Nx-1; i++){
         u[0][i] = Phi(x[i]);
-        u[1][i] = 2.*u[0][i] - u[1][i] + pow((a*tau/h), 2)*(u[0][i+1] - 2.*u[0][i] + u[0][i-1]) + tau*tau*f[0][i] + 2.*tau*Psi(x[i]);
     }
 
     u[0][0] = Phi(x[0]);
     u[0][Nx-1] = Phi(x[Nx-1]);
+
+    for(int i = 1; i < Nx-1; i++){
+        u[1][i] = (2.*u[0][i] + pow((a*tau/h), 2)*(u[0][i+1] - 2.*u[0][i] + u[0][i-1]) + tau*tau*f[0][i] + 2.*tau*Psi(x[i]))/2.;
+    }
     u[1][0] = 1./(2.*alpha0*h - 3.*beta0)*(2.*h*Gamma0(t[1]) - 4.*beta0*u[1][1] + beta0*u[1][2]);
     u[1][Nx-1] = 1./(2.*alphal*h + 3.*betal)*(2.*h*Gammal(t[1]) + 4.*betal*u[1][Nx-2] - betal*u[1][Nx-3]);
 
@@ -106,10 +109,10 @@ int main()
     const double beta0 = 1.;
     const double betal = 1.;
 
-    vector<vector<double>> f(N_t, vector<double>(N_x));
+    vector<vector<double>> f(N_t+1, vector<double>(N_x+1));
 
-    for(int i = 0; i < N_t; i++){
-        for(int j = 0; j < N_x; j++){
+    for(int i = 0; i <= N_t; i++){
+        for(int j = 0; j <= N_x; j++){
             f[i][j] = F(t[i], x[j]);
         }
     }
@@ -118,8 +121,7 @@ int main()
     vector<vector<double>> sol1 = Sol1(x, t, f, tau, h, a, alpha0, alphal, beta0, betal);
     for(int i = 0; i < N_t; i++){
         for(int j = 0; j < N_x; j++){
-            cout << sol1[i][j] << "|";
-            cout << abs(sol1[i][j] - U0(t[i], x[j])) << ", ";
+            cout << sol1[i][j] << "|" << U0(t[i], x[j]) << "|" << abs(sol1[i][j] - U0(t[i], x[j])) << ", ";
         }
         cout << endl;
     }
@@ -128,12 +130,10 @@ int main()
     vector<vector<double>> sol2 = Sol2(x, t, f, tau, h, a, alpha0, alphal, beta0, betal);
     for(int i = 0; i <= N_t; i++){
         for(int j = 0; j <= N_x; j++){
-            //cout << sol2[i][j] << ", ";
-            cout << abs(sol2[i][j] - U0(t[i], x[j])) << ", ";
+            cout << sol2[i][j] << "|" << U0(t[i], x[j]) << "|" << abs(sol2[i][j] - U0(t[i], x[j])) << ", ";
         }
         cout << endl;
     }
-    
 
     return 0;
 }
