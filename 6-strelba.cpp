@@ -52,7 +52,7 @@ vector <double> strelba (vector <double> X, double h, double gammaa, double nua,
         double u0 =  A[1]; //поправляем U(0)
         double du0 = (gammaa - nua*A[1])/etaa; //поправляем U'(0)
 
-        RungeKnutta(X, h, U, V, u0, du0); //Решаем задачу Коши с поправленными нач данными
+        RungeKutta(X, h, U, V, u0, du0); //Решаем задачу Коши с поправленными нач данными
 
         B[1] = U.at(n); 
 
@@ -96,7 +96,12 @@ int main()
     double eps = h;
 
     vector <double> U = strelba (X, h, gammaa, nua, etaa, right, n, eps);
+    for (int i = 0; i < n; i++) {
+        cout << U[i] << "|" << Y[i] << "|" << abs(U[i]-Y[i]) <<endl;
+    }
+
     
+    /*
     ofstream csv_file;
 
     const char csv_file_name1[64] = "Us1.csv";
@@ -106,7 +111,9 @@ int main()
         csv_file << X[i] << ", " << U[i] << ", " << Y[i] <<endl;
     }
     csv_file.close();
+    */
 
+    /*
     vector <long double> H; // массив шагов
     vector <long double> O; // массив ошибок
     vector <long double> Hl; // массив шагов отлагорифмированных
@@ -151,6 +158,7 @@ int main()
         cout << H[i] << ", " << O[i] << ", " << Hl[i] << ", " << Ol[i] << endl;
     }
     csv_file.close();
+    */
     
 
     return 0;
