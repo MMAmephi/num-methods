@@ -165,8 +165,9 @@ int main()
     vector<double> ans1 = sol1(X, gammaa, gammab, nua, nub, etaa, etab, N, h);
     vector<double> ans2 = sol2(X, gammaa, gammab, nua, nub, etaa, etab, N, h);
 
+    cout << "first precision" << endl;
     for(int i = 0; i < ans1.size(); i++){
-        cout << U0(X[i]) << " " << ans1[i] << " " << abs(U0(X[i])-ans1[i]) << endl;   
+        cout << U0(X[i]) << "|" << ans1[i] << "|" << abs(U0(X[i])-ans1[i]) << endl;   
     }
     cout << "second precision" << endl;
     for(int i = 0; i < ans2.size(); i++){
